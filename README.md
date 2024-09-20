@@ -1,48 +1,54 @@
-# Quora-Ai-Assistant
-Quorra AI Assistant Description: Quorra is an intelligent voice-controlled AI assistant designed to help you with a wide range of tasks, making your daily routines more efficient and engaging. Inspired by the digital character "Quorra," this assistant seamlessly integrates voice recognition, natural language processing
+Quorra - AI Assistant
+Quorra is a voice-activated AI assistant built with Python that can respond to a variety of commands, perform tasks, and engage in natural conversations using OpenAI's GPT-3 model. It can browse websites, open apps, provide the time, and more.
 
+Features
+Voice Commands: Use voice commands to interact with Quorra and control applications.
+OpenAI GPT-3 Integration: Quorra leverages GPT-3 to handle natural language queries and respond intelligently.
+Automated File Creation: Create new Python files and open them directly in Visual Studio Code with a voice command.
+Open Websites and Apps: Quorra can quickly open frequently used websites and applications.
+Time Information: Get the current time through a voice command.
+System Commands: Lock the screen, check battery status, or even put the system into sleep mode with a voice command.
+Music Playback: Play your favorite music directly from your device.
+Bluetooth and Siri: Open Bluetooth settings or activate Siri directly via Quorra.
+Chat Reset: You can reset the chat history at any time for a fresh conversation.
+Requirements
+Python 3.x
+OpenAI API Key (replace YOUR_API_KEY with your actual key)
+Packages:
+speech_recognition
+openai
+webbrowser
+os
+subprocess
+Installation
+Clone this repository to your local machine.
 
-import os
-import openai
+Install the necessary Python packages:
 
-# Use environment variable to set the API key
-openai.api_key = os.getenv('OPENAI_API_KEY')
+bash
+Copy code
+pip install speechrecognition openai
+Replace YOUR_API_KEY with your actual OpenAI API key in the script.
 
-elif "create file" in query:
-    say("Please say the name for your file.")
-    filename_query = takeCommand().lower()
-    filename = filename_query.replace("name", "").strip()  # Remove unnecessary keyword
-    if filename:
-        create_file(filename, "# Enter your Python code here...")
-    else:
-        say("I couldn't understand the file name. Please try again.")
+Ensure you have a working microphone for speech input.
 
-import pyttsx3
+Usage
+Run the script to activate Quorra. You can interact with it through voice commands. Some example commands include:
 
-# Initialize text-to-speech engine
-engine = pyttsx3.init()
+"Open YouTube"
+"What time is it?"
+"Create a file"
+"Run the AI with the prompt"
+Quorra will handle your request and provide feedback using text-to-speech output.
 
-def say(text):
-    engine.say(text)
-    engine.runAndWait()
+Customization
+You can customize Quorra to your needs by:
 
-pip install pyttsx3
+Adding more frequently used websites or applications in the sites list.
+Customizing paths for files or applications that Quorra should open.
+Contributing
+Feel free to contribute to this project by opening issues or submitting pull requests.
 
-elif "run fan" in query:
-    try:
-        # Replace 'SomeFanControlApp' with the actual app name
-        call(["open", "-a", "SomeFanControlApp"])  
-        say("Running fan control application.")
-    except FileNotFoundError:
-        say("Fan control application not found.")
+License
+This project is open-source and free to use.
 
-
-
-import re
-
-# Function to sanitize filenames
-def sanitize_filename(filename):
-    return re.sub(r'[\\/*?:"<>|]', "", filename)
-
-# In the ai() function
-filename = sanitize_filename(prompt.replace(' ', '_').lower()) + ".txt"
