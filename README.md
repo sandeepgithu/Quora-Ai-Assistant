@@ -1,5 +1,5 @@
 Quorra - AI Assistant
-Quorra is a voice-activated AI assistant built with Python that can respond to a variety of commands, perform tasks, and engage in natural conversations using OpenAI's GPT-3 model. It can browse websites, open apps, provide the time, and more.
+Quorra is a voice-activated AI assistant built with Python that can respond to a variety of commands, perform tasks, and engage in natural conversations using OpenAI model. It can browse websites, open apps, provide the time, and more.
 
 Features
 Voice Commands: Use voice commands to interact with Quorra and control applications.
