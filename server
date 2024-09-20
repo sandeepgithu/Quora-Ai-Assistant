@@ -1,0 +1,19 @@
+from flask import Flask, request
+import subprocess
+
+app = Flask(__name__)
+
+@app.route('/run', methods=['POST'])
+def run_script():
+    data = request.json
+    query = data.get('query', '')
+    # Call your Python function here
+    result = your_function(query)
+    return result
+
+def your_function(query):
+    # Your Python function logic
+    return "Result"
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
