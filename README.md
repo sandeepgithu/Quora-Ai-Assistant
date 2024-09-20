@@ -3,7 +3,7 @@ Quorra is a voice-activated AI assistant built with Python that can respond to a
 
 Features
 Voice Commands: Use voice commands to interact with Quorra and control applications.
-OpenAI GPT-3 Integration: Quorra leverages GPT-3 to handle natural language queries and respond intelligently.
+OpenAI GPT-3 Integration: Quorra to handle natural language queries and respond intelligently.
 Automated File Creation: Create new Python files and open them directly in Visual Studio Code with a voice command.
 Open Websites and Apps: Quorra can quickly open frequently used websites and applications.
 Time Information: Get the current time through a voice command.
