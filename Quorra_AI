@@ -1,0 +1,223 @@
+import speech_recognition as sr
+import os
+import webbrowser
+import openai
+import datetime
+from subprocess import call
+
+# Initialize the global chat string
+chatStr = ""
+
+# Replace 'YOUR_API_KEY' with your actual OpenAI API key
+apikey = 'YOUR_API_KEY'
+
+# Function to handle chatting with the OpenAI model
+def chat(query):
+    global chatStr
+    openai.api_key = apikey
+    chatStr += f"User: {query}\nAssistant: "
+    
+    try:
+        # Generate a response using OpenAI's API
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=chatStr,
+            temperature=0.7,
+            max_tokens=256,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        reply = response["choices"][0]["text"].strip()
+        say(reply)
+        chatStr += f"{reply}\n"
+        return reply
+    except Exception as e:
+        say("Sorry, I could not process the request.")
+        return str(e)
+
+# Function to handle AI prompts
+def ai(prompt):
+    openai.api_key = apikey
+    text = f"OpenAI response for Prompt: {prompt} \n *************************\n\n"
+
+    try:
+        # Generate a response using OpenAI's API
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=prompt,
+            temperature=0.7,
+            max_tokens=256,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0
+        )
+        text += response["choices"][0]["text"].strip()
+        
+        if not os.path.exists("Openai"):
+            os.mkdir("Openai")
+
+        # Save the response to a file
+        filename = f"Openai/{prompt.replace(' ', '_').lower()}.txt"
+        with open(filename, "w") as f:
+            f.write(text)
+        say("Your AI prompt response has been saved.")
+    except Exception as e:
+        say("Sorry, I could not process the request.")
+        print(str(e))
+
+# Function to convert text to speech
+def say(text):
+    os.system(f'say "{text}"')
+
+# Function to capture voice commands
+def takeCommand():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        audio = r.listen(source)
+        try:
+            print("Recognizing...")
+            query = r.recognize_google(audio, language="en-in")
+            print(f"User said: {query}")
+            
+            if "hello Quorra" in query.lower():
+                say("Yes sir, code complete.")
+                return "hello Quorra"
+            
+            return query.lower()
+        except Exception as e:
+            print("Sorry, I didn't catch that. Could you please repeat?")
+            return "Some Error Occurred. Sorry."
+
+# Function to create a new file and open it in Visual Studio Code
+def create_file(filename, content):
+    folder_path = "/path/to/your/desired/location/"  # Replace with your desired folder path
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+    
+    file_path = os.path.join(folder_path, f"{filename}.py")  # Assuming Python files
+    with open(file_path, "w") as f:
+        f.write(content)
+    
+    # Open the created file in Visual Studio Code
+    call(["code", file_path])
+    say("File has been created and opened in Visual Studio Code.")
+
+# Function to ask if there is anything else the user needs
+def askAnythingElse():
+    say("Anything else, sir?")
+    response = takeCommand()
+    if "yes" in response.lower():
+        return True
+    else:
+        say("Goodbye, sir.")
+        return False
+
+if __name__ == '__main__':
+    print('Welcome to Sir 🤖')
+    
+    say("I am Quorra.")
+    say("How can I help you?")
+    
+    # List of frequently used sites
+    sites = [
+        ["youtube", "https://www.youtube.com"],
+        ["wikipedia", "https://www.wikipedia.org"],
+        ["google", "https://www.google.com"],
+        ["chat GPT", "https://chat.openai.com/"],
+        ["gitHub", "https://github.com/sandeepgithu?tab=projects"],
+        ["icloud", "https://gu.icloudems.com"],
+        ["Instagram", "https://www.instagram.com"],
+    ]
+
+    keepGoing = True
+    while keepGoing:
+        query = takeCommand()
+
+        if query == "hello Quorra":
+            continue
+        
+        for site in sites:
+            if f"open {site[0]}".lower() in query:
+                say(f"Opening {site[0]} boss...")
+                webbrowser.open(site[1])
+                break
+        else:
+            if "open music" in query:
+                musicPath = "/Users/harry/Downloads/downfall-21371.mp3"  # Update the path accordingly
+                os.system(f"open {musicPath}")
+
+            elif "the time" in query:
+                now = datetime.datetime.now()
+                say(f"Sir, the time is {now.strftime('%H')} hours and {now.strftime('%M')} minutes")
+
+            elif "open facetime" in query:
+                os.system("open /System/Applications/FaceTime.app")
+
+            elif "open pass" in query:
+                os.system("open /Applications/Passky.app")
+
+            elif "using artificial intelligence" in query:
+                ai(prompt=query)
+
+            elif "nothing" in query:
+                say("Goodbye, boss.")      
+                break
+
+            elif "reset chat" in query:
+                chatStr = ""
+                say("Chat has been reset.")
+
+            elif "open vs code" in query:
+                call(["code", "-n"])
+                say("Visual Studio Code has been opened.")
+            
+            elif "open vlc" in query:
+                call(["open", "-a", "VLC"])
+                say("VLC has been opened.")
+                
+            elif "open canva" in query:
+                call(["open", "-a", "Canva"])
+                say("Canva has been opened.")
+                
+            elif "open siri" in query:
+                call(["open", "-a", "Siri"])
+                say("Siri has been opened.")
+                
+            elif "battery percentage" in query:
+                os.system('pmset -g batt')
+                say("Battery percentage displayed in the terminal.")
+                
+            elif "go to sleep mode" in query:
+                os.system("pmset sleepnow")
+                say("Going to sleep mode sir.")
+            
+            elif "open bluetooth" in query:
+                os.system("open -a 'Bluetooth File Exchange'")
+                say("Opening Bluetooth File Exchange.")
+            
+            elif "run fan" in query:
+                # Adjust this as per your specific fan control application
+                say("Running fan control application.")
+                call(["open", "-a", "SomeFanControlApp"])  # Replace with the actual app name
+                
+            elif "lock screen" in query:
+                os.system('osascript -e \'tell application "System Events" to keystroke "q" using {control down, command down}\'')
+                say("Locking the screen.")
+
+            elif "create file" in query:
+                say("Please say the name for your file.")
+                filename_query = takeCommand().lower()
+                content = "# Enter your Python code here..."  # Default content
+                if "name" in filename_query:
+                    filename = filename_query.split("name")[-1].strip()
+                    create_file(filename, content)
+                else:
+                    say("I couldn't understand the file name. Please try again.")
+
+            else:
+                chat(query)
+        
+        keepGoing = askAnythingElse()
+    
