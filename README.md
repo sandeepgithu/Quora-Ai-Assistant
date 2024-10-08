@@ -3,6 +3,10 @@ Quorra is a voice-activated AI assistant built with Python that can respond to a
 OpenAI model. It can browse websites, open apps, provide the time, and more.
 
 ### Features
+<center>
+  <img src="voice.webp" alt="Emotion Detection" width="300">
+</center>
+
    - Voice Commands: Use voice commands to interact with Quorra and control applications.
    
 ### OpenAI Integration: 
@@ -68,4 +72,6 @@ OpenAI model. It can browse websites, open apps, provide the time, and more.
 ### Contributing
     Feel free to contribute to this project by opening issues or submitting pull requests.
 
-
+<center>
+  <img src="Make-Terminal-talk.jpg" alt="Emotion Detection" width="300">
+</center>
